@@ -2,6 +2,7 @@ const express = require("express"); // Loads the Express library.
 const errorHandler = require("./middleware/errorHandler");
 
 const connectDb = require("./config/dbConnection");
+const { isObjectIdOrHexString } = require("mongoose");
 
 const dotenv = require("dotenv").config();         // Loads environment variables from .env
 
@@ -13,6 +14,7 @@ const port = process.env.PORT || 5000; // Uses PORT from .env, or defaults to 50
 app.use(express.json()); //in-built middleware in express for body-parser
 
 app.use("/api/contacts", require("./routes/contactRoutes")); //middleware
+app.use("/api/users", require("./routes/userRoutes")); //middleware
 app.use(errorHandler);
 
 app.listen(port, () => {
