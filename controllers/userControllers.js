@@ -54,7 +54,6 @@ const loginUser = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email });
     //compare password with hashedpassword
     if (user && (await bcrypt.compare(password, user.password))) {
-        //console.log("JWT Secret:", process.env.ACCESS_TOKEN_SECRET);
         const accessToken = jwt.sign({
             user: {
                 username: user.username,
@@ -63,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
             }
         },
         process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: "1m" }
+        { expiresIn: "15m" }
     );
     res.status(200).json({ accessToken });
     } else {
@@ -78,7 +77,8 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access private
 
 const currentUser = asyncHandler(async (req, res) => {
-    res.json({message: "Current user INFO"});
+    res.json(req.user);
+    //res.json({message: "Current user INFO"});
 });
 
 module.exports = { registerUser, loginUser, currentUser };
