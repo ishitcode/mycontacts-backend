@@ -61,6 +61,11 @@ const Contact = require("../models/contactModel");
             throw new Error("Contact not found");
         }
 
+        if (contacts.user_id.toString() !== req.user.id) { //so that diff user can not update contact og current user
+            res.status(403);
+            throw new Error("User don't have permission to update other user contacts");
+        }
+
         const updatedContact = await Contact.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -81,7 +86,14 @@ const Contact = require("../models/contactModel");
             res.status(404);
             throw new Error("Contact not found");
         }
-        await Contact.findByIdAndDelete(req.params.id);
+
+        if (contacts.user_id.toString() !== req.user.id) { //so that diff user can not update contact og current user
+            res.status(403);
+            throw new Error("User d0n't have permission to update other user contacts");
+        }
+
+        //await Contact.findByIdAndDelete(req.params.id);
+        await Contact.deleteOne({_id: req.params.id});
         res.status(200).json(contacts); 
     });
 
