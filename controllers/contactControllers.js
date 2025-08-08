@@ -92,8 +92,8 @@ const Contact = require("../models/contactModel");
             throw new Error("User d0n't have permission to update other user contacts");
         }
 
-        //await Contact.findByIdAndDelete(req.params.id);
-        await Contact.deleteOne({_id: req.params.id});
+        await Contact.findByIdAndDelete(req.params.id);
+        //OR await Contact.deleteOne({_id: req.params.id});
         res.status(200).json(contacts); 
     });
 
