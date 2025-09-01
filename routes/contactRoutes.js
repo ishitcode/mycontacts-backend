@@ -10,7 +10,7 @@ const { getContacts,
 
 const validateToken = require("../middleware/validateTokenHandler");
 
-router.use(validateToken);
+router.use(validateToken); // Prevents unauthorized access without repeating router.get("/...", validateToken, handler) for every route.
 
 
 //router.route('/').get(getContacts);
@@ -24,4 +24,4 @@ router.route('/').get(getContacts).post(createContact);  //lines being saved
 
 router.route('/:id').get(getContact).put(updateContact).delete(deleteContact);
 
-module.exports = router;
+module.exports = router; //Exports the router so it can be imported in server.js
